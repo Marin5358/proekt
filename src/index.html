@@ -1,13 +1,359 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
 <head>
-  <meta charset="utf-8">
-  <title>Proektmarin5358</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angular Website</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.3/angular-route.min.js"></script>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            background: #fff;
+            color: #333;
+        }
+
+        header {
+            background: linear-gradient(120deg, #000000, #1e90ff); /* Black to Baby Blue */
+            color: white;
+            text-align: center;
+            padding: 6rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        header button {
+            font-size: 1.2rem;
+            padding: 1rem 2.5rem;
+            background: #ff4c4c; /* Red */
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        header button:hover {
+            background: #1e90ff; /* Baby Blue */
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            background: #000000; /* Black */
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 2rem;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+            color: #1e90ff; /* Baby Blue */
+        }
+
+        section {
+            padding: 4rem 2rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            color: #1e90ff; /* Baby Blue */
+            font-weight: 600;
+        }
+
+        section p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        footer {
+            background: #000000; /* Black */
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        footer a {
+            color: #1e90ff; /* Baby Blue */
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+
+        .gallery img {
+            width: 250px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 4px solid #ff4c4c; /* Red Border */
+            transition: transform 0.3s ease;
+        }
+
+        .gallery img:hover {
+            transform: scale(1.05);
+        }
+
+        .statistics {
+            background: #f9f9f9;
+            padding: 3rem 2rem;
+            border-radius: 20px;
+            margin: 3rem 1rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .statistics h3 {
+            font-size: 2.5rem;
+            color: #1e90ff; /* Baby Blue */
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stat-item {
+            font-size: 2rem;
+            margin: 1.5rem 0;
+            color: #333;
+            font-weight: 400;
+        }
+
+        .testimonial {
+            font-style: italic;
+            color: #555;
+            margin-top: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Contact Form Styling */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #f4f4f4;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-form h3 {
+            text-align: center;
+            color: #1e90ff; /* Baby Blue */
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .contact-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .contact-form input[type="text"], .contact-form input[type="email"], .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .contact-form input[type="text"]:focus, .contact-form input[type="email"]:focus, .contact-form textarea:focus {
+            border-color: #1e90ff; /* Baby Blue Focus */
+        }
+
+        .contact-form input[type="submit"] {
+            background: #ff4c4c; /* Red */
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            cursor: pointer;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .contact-form input[type="submit"]:hover {
+            background: #1e90ff; /* Baby Blue */
+        }
+
+        /* Mobile Styles */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.5rem;
+            }
+
+            header p {
+                font-size: 1.1rem;
+            }
+
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .statistics {
+                margin: 2rem 0;
+            }
+
+            .contact-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
 </head>
-<body>
-  <app-root></app-root>
+<body ng-controller="mainController">
+    <header>
+        <h1>Welcome to Our Website</h1>
+        <p>Explore everything you need to know about us and our services. We help businesses thrive online.</p>
+        <button ng-click="explore()">Explore Now</button>
+    </header>
+
+    <nav>
+        <a ng-href="#!home">Home</a>
+        <a ng-href="#!about">About</a>
+        <a ng-href="#!services">Services</a>
+        <a ng-href="#!gallery">Gallery</a>
+        <a ng-href="#!testimonials">Testimonials</a>
+        <a ng-href="#!contact">Contact</a>
+    </nav>
+
+    <div ng-view></div>
+
+    <footer>
+        <p>&copy; 2024 Website. All rights reserved. | <a href="#">Privacy Policy</a></p>
+    </footer>
+
+    <script>
+        const app = angular.module('myApp', ['ngRoute']);
+
+        app.controller('mainController', function($scope, $location) {
+            $scope.explore = function() {
+                $location.path('/explore');  // Navigate to the Explore route
+            };
+        });
+
+        app.config(function($routeProvider) {
+            $routeProvider
+                .when('/home', {
+                    template: `
+                        <section id="home">
+                            <h2>Welcome to Our Platform</h2>
+                            <p>At [Your Company], we create custom digital experiences that connect people with your brand. From stunning websites to engaging marketing strategies, we help businesses grow and succeed.</p>
+                            <p>Join us on our mission to elevate your online presence and transform your business.</p>
+
+                            <h3>Our Mission</h3>
+                            <p>Our mission is to build user-centric solutions that solve problems and make life easier for our clients. We believe in delivering innovative services that bring results and create value.</p>
+
+                            <h3>Key Statistics</h3>
+                            <div class="statistics">
+                                <h3>Our Achievements</h3>
+                                <div class="stat-item">5+ Years of Experience in Web Development</div>
+                                <div class="stat-item">200+ Successful Projects Delivered</div>
+                                <div class="stat-item">150+ Happy Clients Worldwide</div>
+                                <div class="stat-item">30+ Skilled Professionals on Our Team</div>
+                            </div>
+
+                            <h3>Client Testimonials</h3>
+                            <p class="testimonial">"This team has been amazing! They transformed our website and we saw an immediate increase in traffic and conversions." - Jane Doe, CEO</p>
+                            <p class="testimonial">"Highly recommend their services. Their team is creative, professional, and results-driven." - John Smith, Marketing Manager</p>
+
+                            <h3>Our Work in Action</h3>
+                            <p>Take a look at our portfolio of recent projects below to see the kind of impact we can make.</p>
+                            <div class="gallery">
+                                <img src="https://via.placeholder.com/250x180" alt="Project 1">
+                                <img src="https://via.placeholder.com/250x180" alt="Project 2">
+                                <img src="https://via.placeholder.com/250x180" alt="Project 3">
+                                <img src="https://via.placeholder.com/250x180" alt="Project 4">
+                            </div>
+
+                            <h3>Why Choose Us?</h3>
+                            <p>We are a dedicated team that believes in the power of innovation, creativity, and collaboration. Our goal is to ensure your business stands out in the crowded digital landscape.</p>
+                        </section>
+                    `
+                })
+                .when('/about', {
+                    template: `
+                        <section id="about">
+                            <h2>About Us</h2>
+                            <p>We are a dynamic company that specializes in custom web development, digital marketing, and SEO optimization. With over 5 years in the industry, we have helped businesses of all sizes achieve their online goals.</p>
+                            <p>Our team is passionate, dedicated, and always up-to-date with the latest trends in web technology. We believe in creating innovative solutions tailored to the specific needs of our clients.</p>
+                        </section>
+                    `
+                })
+                .when('/contact', {
+                    template: `
+                        <section id="contact">
+                            <h2>Contact Us</h2>
+                            <p>If you have any questions or would like to get in touch with us, please fill out the form below.</p>
+                            <div class="contact-form">
+                                <h3>Contact Form</h3>
+                                <form>
+                                    <label for="name">Name:</label>
+                                    <input type="text" id="name" name="name" required>
+
+                                    <label for="email">Email:</label>
+                                    <input type="email" id="email" name="email" required>
+
+                                    <label for="message">Message:</label>
+                                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                                    <input type="submit" value="Send Message">
+                                </form>
+                            </div>
+                        </section>
+                    `
+                })
+                .when('/explore', {
+                    template: `
+                        <section id="explore">
+                            <h2>Explore Our New World</h2>
+                            <p>Get ready to dive deeper into our world! Here, we showcase our most innovative solutions and offer a sneak peek into upcoming projects and collaborations.</p>
+                            <p>We believe in pushing boundaries and continuously adapting to the latest trends. Take your time to explore our various sections, including case studies, client success stories, and more!</p>
+                        </section>
+                    `
+                })
+                .otherwise({
+                    redirectTo: '/home'
+                });
+        });
+    </script>
 </body>
 </html>
